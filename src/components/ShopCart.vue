@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 m-4 bg-blue-200 rounded-lg shadow-md">
+  <div class="p-6 mx-4 bg-blue-200 rounded-lg shadow-md">
     <h1 class="mb-6 text-3xl font-bold text-center">購物車</h1>
 
     <div v-if="cartItems.length === 0" class="mb-4 text-center text-gray-500">購物車目前空空的</div>
@@ -25,7 +25,6 @@
       </div>
     </div>
 
-    <!-- 優惠碼輸入框 -->
     <div class="mt-4">
       <input
         v-model="discountInput"
