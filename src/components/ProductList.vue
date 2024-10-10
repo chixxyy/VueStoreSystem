@@ -1,6 +1,5 @@
 <template>
-  <div class="container p-4 mx-auto">
-    <h1 class="mb-12 text-4xl font-bold text-center">商品列表</h1>
+  <div class="px-4 mx-auto">
     <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       <div
         v-for="product in products"
@@ -89,17 +88,17 @@ export default {
         },
         {
           id: 9,
-          name: '顯示器',
-          price: 2799,
-          image: 'https://picsum.photos/id/9/200',
-          maxQuantity: 7
-        },
-        {
-          id: 10,
           name: '外接硬碟',
           price: 1599,
           image: 'https://picsum.photos/id/10/200',
           maxQuantity: 10
+        },
+        {
+          id: 10,
+          name: '顯示器',
+          price: 2799,
+          image: 'https://picsum.photos/id/9/200',
+          maxQuantity: 7
         }
       ]
     }

@@ -1,8 +1,8 @@
 <template>
-  <div class="p-6 bg-white rounded-lg shadow-md">
+  <div class="p-6 m-4 bg-blue-200 rounded-lg shadow-md">
     <h1 class="mb-6 text-3xl font-bold text-center">購物車</h1>
 
-    <div v-if="cartItems.length === 0" class="mb-4 text-center text-gray-500">購物車是空的</div>
+    <div v-if="cartItems.length === 0" class="mb-4 text-center text-gray-500">購物車目前空空的</div>
 
     <div v-for="product in cartItems" :key="product.id" class="pb-4 mb-4 border-b">
       <h3 class="text-xl font-semibold">{{ product.name }}</h3>
