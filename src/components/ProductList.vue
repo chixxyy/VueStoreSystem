@@ -1,22 +1,22 @@
 <template>
-  <div class="container mx-auto p-4">
-    <h1 class="text-4xl font-bold text-center mb-12">商品列表</h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+  <div class="container p-4 mx-auto">
+    <h1 class="mb-12 text-4xl font-bold text-center">商品列表</h1>
+    <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       <div
         v-for="product in products"
         :key="product.id"
-        class="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105"
+        class="overflow-hidden transition-transform transform bg-white rounded-lg shadow-lg hover:scale-105"
       >
-        <img :src="product.image" :alt="product.name" class="w-full h-56 object-cover" />
+        <img :src="product.image" :alt="product.name" class="object-cover w-full h-56" />
         <div class="p-6">
-          <h3 class="text-lg font-semibold mb-2">{{ product.name }}</h3>
-          <p class="text-gray-700 mb-2">
+          <h3 class="mb-2 text-lg font-semibold">{{ product.name }}</h3>
+          <p class="mb-2 text-gray-700">
             價格：<span class="font-bold">{{ product.price }}元</span>
           </p>
-          <p class="text-gray-500 mb-4">最多購買：{{ product.maxQuantity }}件</p>
+          <p class="mb-4 text-gray-500">最多購買：{{ product.maxQuantity }}件</p>
           <button
             @click="addToCart(product)"
-            class="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300"
+            class="w-full py-2 font-semibold text-white transition-colors duration-300 bg-blue-500 rounded-lg hover:bg-blue-600"
           >
             加入購物車
           </button>
@@ -112,6 +112,4 @@ export default {
 }
 </script>
 
-<style scoped>
-/* Optional: Smooth transition for hover effects */
-</style>
+<style scoped></style>

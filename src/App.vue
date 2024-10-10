@@ -1,16 +1,14 @@
 <template>
-  <div class="container mx-auto p-4">
-    <h1 class="text-4xl font-bold text-center mb-12">商品購物車</h1>
+  <div class="container p-4 mx-auto">
+    <h1 class="mb-12 text-4xl font-bold text-center">商品購物車</h1>
 
-    <div class="flex flex-col md:flex-row justify-between">
-      <!-- 商品列表 -->
-      <div class="w-full md:w-2/3 mb-8">
+    <div class="flex flex-col justify-between md:flex-row">
+      <div class="w-full mb-8 md:w-2/3">
         <ProductList @add-to-shopcart="addToCart" />
       </div>
 
-      <!-- 購物車 -->
       <div class="w-full md:w-1/3">
-        <ShopCart :shopcart="shopcart" />
+        <ShopCart :shopcart="shopcart" @remove-product="removeFromCart" />
       </div>
     </div>
   </div>
@@ -42,6 +40,9 @@ export default {
       } else {
         this.shopcart.push({ ...product, quantity: 1 })
       }
+    },
+    removeFromCart(productId) {
+      this.shopcart = this.shopcart.filter((item) => item.id !== productId)
     }
   }
 }
