@@ -8,7 +8,7 @@
       </div>
 
       <div class="w-full md:w-1/3">
-        <ShopCart :shopcart="shopcart" @remove-product="removeFromCart" />
+        <ShopCart />
       </div>
     </div>
   </div>
@@ -17,33 +17,21 @@
 <script>
 import ProductList from './components/ProductList.vue'
 import ShopCart from './components/ShopCart.vue'
+import { useCartStore } from './stores/cartStore'
 
 export default {
   components: {
     ProductList,
     ShopCart
   },
-  data() {
-    return {
-      shopcart: []
+  setup() {
+    const cartStore = useCartStore()
+
+    const addToCart = (product) => {
+      cartStore.addToCart(product)
     }
-  },
-  methods: {
-    addToCart(product) {
-      const cartItem = this.shopcart.find((item) => item.id === product.id)
-      if (cartItem) {
-        if (cartItem.quantity < product.maxQuantity) {
-          cartItem.quantity++
-        } else {
-          alert('已達購買上限')
-        }
-      } else {
-        this.shopcart.push({ ...product, quantity: 1 })
-      }
-    },
-    removeFromCart(productId) {
-      this.shopcart = this.shopcart.filter((item) => item.id !== productId)
-    }
+
+    return { addToCart }
   }
 }
 </script>
