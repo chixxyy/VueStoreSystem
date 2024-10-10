@@ -40,25 +40,35 @@ export default {
     const cartStore = useCartStore()
 
     const cartItems = computed(() => cartStore.items)
-    const totalPrice = computed(() => cartStore.totalPrice)
+
+    const totalPrice = computed(() => {
+      return cartStore.items.reduce((sum, product) => sum + product.price * product.quantity, 0)
+    })
 
     const increaseQuantity = (product) => {
-      cartStore.increaseQuantity(product)
+      cartStore.addToCart(product)
     }
 
     const decreaseQuantity = (product) => {
-      cartStore.decreaseQuantity(product)
+      const existingItem = cartStore.items.find((item) => item.id === product.id)
+      if (existingItem && existingItem.quantity > 1) {
+        existingItem.quantity -= 1
+      }
     }
 
     const removeProduct = (productId) => {
-      cartStore.removeProduct(productId)
+      cartStore.items = cartStore.items.filter((item) => item.id !== productId)
     }
 
-    return { cartItems, totalPrice, increaseQuantity, decreaseQuantity, removeProduct }
+    return {
+      cartItems,
+      totalPrice,
+      increaseQuantity,
+      decreaseQuantity,
+      removeProduct
+    }
   }
 }
 </script>
 
-<style scoped>
-/* 可以添加您自己的樣式 */
-</style>
+<style scoped></style>
