@@ -25,25 +25,47 @@
       </div>
     </div>
 
-    <p class="text-lg font-semibold text-right">
-      總價：<span class="text-blue-600">{{ totalPrice }}元</span>
+    <!-- 優惠碼輸入框 -->
+    <div class="mt-4">
+      <input
+        v-model="discountInput"
+        type="text"
+        placeholder="輸入優惠碼"
+        class="px-4 py-2 border rounded"
+      />
+      <button @click="applyDiscount" class="p-2 mt-2 text-white bg-blue-500 rounded">
+        使用優惠碼
+      </button>
+    </div>
+
+    <p v-if="discountCode" class="mt-2 text-green-500">
+      已使用優惠碼：{{ discountCode }}，節省 {{ appliedDiscount }} 元
+    </p>
+
+    <p class="mt-4 text-lg font-semibold text-right">
+      總價：<span class="text-blue-600">{{ finalPrice }}元</span>
     </p>
   </div>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useCartStore } from '../stores/cartStore'
 
 export default {
   setup() {
     const cartStore = useCartStore()
+    const discountInput = ref('')
 
     const cartItems = computed(() => cartStore.items)
+    const finalPrice = computed(() => cartStore.finalPrice)
+    const discountCode = computed(() => cartStore.discountCode)
+    const appliedDiscount = computed(() => cartStore.appliedDiscount)
 
-    const totalPrice = computed(() => {
-      return cartStore.items.reduce((sum, product) => sum + product.price * product.quantity, 0)
-    })
+    const applyDiscount = () => {
+      cartStore.applyDiscountCode(discountInput.value)
+      discountInput.value = ''
+    }
 
     const increaseQuantity = (product) => {
       cartStore.addToCart(product)
@@ -57,12 +79,16 @@ export default {
     }
 
     const removeProduct = (productId) => {
-      cartStore.items = cartStore.items.filter((item) => item.id !== productId)
+      cartStore.removeProduct(productId)
     }
 
     return {
       cartItems,
-      totalPrice,
+      finalPrice,
+      discountCode,
+      appliedDiscount,
+      discountInput,
+      applyDiscount,
       increaseQuantity,
       decreaseQuantity,
       removeProduct
