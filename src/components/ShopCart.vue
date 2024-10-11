@@ -25,14 +25,17 @@
       </div>
     </div>
 
-    <div class="mt-4">
+    <div class="flex flex-wrap items-center mt-4 space-x-2">
       <input
         v-model="discountInput"
         type="text"
         placeholder="輸入優惠碼"
-        class="px-4 py-2 border rounded"
+        class="flex-1 min-w-0 px-4 py-2 mb-2 border rounded sm:mb-0"
       />
-      <button @click="applyDiscount" class="p-2 mt-2 text-white bg-blue-500 rounded">
+      <button
+        @click="applyDiscount"
+        class="w-full px-4 py-2 text-white bg-blue-500 rounded sm:w-auto"
+      >
         使用優惠碼
       </button>
     </div>
@@ -83,6 +86,7 @@
 <script>
 import { computed, ref } from 'vue'
 import { useCartStore } from '../stores/cartStore'
+import Swal from 'sweetalert2'
 
 export default {
   setup() {
@@ -113,7 +117,21 @@ export default {
     }
 
     const removeProduct = (productId) => {
-      cartStore.removeProduct(productId)
+      Swal.fire({
+        title: '確定要刪除該商品嗎？',
+        text: '這個動作將無法恢復',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '是的，刪除它',
+        cancelButtonText: '取消'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          cartStore.removeProduct(productId)
+          Swal.fire('已刪除！', '該商品已被移出購物車。', 'success')
+        }
+      })
     }
 
     const checkout = () => {
@@ -121,11 +139,34 @@ export default {
     }
 
     const confirmCheckout = () => {
+      if (finalPrice.value <= 0) {
+        Swal.fire({
+          title: '無法結帳',
+          text: '總金額不能為 0 元，請添加商品到購物車。',
+          icon: 'error',
+          confirmButtonText: '了解',
+          timer: 3000,
+          timerProgressBar: true
+        }).then(() => {
+          showSummary.value = false
+        })
+        return
+      }
+
       cartStore.items = []
       cartStore.discountCode = null
       cartStore.appliedDiscount = 0
       showSummary.value = false
-      alert('結帳成功，謝謝您的購買！')
+      Swal.fire({
+        title: '結帳成功！',
+        text: '謝謝您的購買！',
+        icon: 'success',
+        confirmButtonText: '好的',
+        timer: 3000,
+        timerProgressBar: true
+      }).then(() => {
+        showSummary.value = false
+      })
     }
 
     return {

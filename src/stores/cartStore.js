@@ -8,17 +8,36 @@ export const useCartStore = defineStore('cart', () => {
   const discountError = ref(null)
 
   const discountCodes = [
-    { code: 'SAVE10', type: 'percentage', value: 10 },
-    { code: 'SAVE20', type: 'percentage', value: 20 },
-    { code: 'MINUS100', type: 'fixed', value: 100 },
-    { code: 'MINUS500', type: 'fixed', value: 500 }
+    {
+      code: 'SAVE10',
+      type: 'percentage',
+      value: 10
+    },
+    {
+      code: 'SAVE20',
+      type: 'percentage',
+      value: 20
+    },
+    {
+      code: 'MINUS100',
+      type: 'fixed',
+      value: 100
+    },
+    {
+      code: 'MINUS500',
+      type: 'fixed',
+      value: 500
+    }
   ]
 
   const totalPrice = computed(() =>
     items.value.reduce((sum, product) => sum + product.price * product.quantity, 0)
   )
 
-  const finalPrice = computed(() => totalPrice.value - appliedDiscount.value)
+  const finalPrice = computed(() => {
+    // 防止折扣超過總價，最小值為 0
+    return Math.max(0, totalPrice.value - appliedDiscount.value)
+  })
 
   const applyDiscountCode = (code) => {
     const discount = discountCodes.find((discount) => discount.code === code)
@@ -41,7 +60,6 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
-  // 監控購物車數據的變化，並保存到 localStorage
   watch(
     items,
     (newItems) => {
@@ -50,7 +68,6 @@ export const useCartStore = defineStore('cart', () => {
     { deep: true }
   )
 
-  // 監控優惠碼和折扣的變化，並保存到 localStorage
   watch([discountCode, appliedDiscount], ([newCode, newDiscount]) => {
     if (newCode) {
       localStorage.setItem('discountCode', newCode)
