@@ -35,7 +35,6 @@ export const useCartStore = defineStore('cart', () => {
   )
 
   const finalPrice = computed(() => {
-    // 防止折扣超過總價，最小值為 0
     return Math.max(0, totalPrice.value - appliedDiscount.value)
   })
 
