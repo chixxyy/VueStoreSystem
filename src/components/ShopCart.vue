@@ -99,7 +99,7 @@
 
     <section v-if="recommendedProducts.length" class="mt-6">
       <h3 class="mb-4 text-2xl font-semibold">折扣商品</h3>
-      <ul class="grid grid-cols-1 gap-4 sm:grid-cols-3 md:grid-cols-2">
+      <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-2">
         <li
           v-for="product in recommendedProducts"
           :key="product.id"
@@ -142,7 +142,6 @@ export default {
       { id: 103, name: '無線耳機', price: 1099 }
     ])
 
-    // 檢查購物車中是否已有折扣商品
     const hasDiscountProductInCart = computed(() => {
       return cartItems.value.some((item) =>
         recommendedProducts.value.some((product) => product.id === item.id)
