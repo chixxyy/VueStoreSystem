@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
+import Swal from 'sweetalert2'
 
 export const useCartStore = defineStore('cart', () => {
   const items = ref(JSON.parse(localStorage.getItem('cartItems')) || [])
@@ -100,7 +101,14 @@ export const useCartStore = defineStore('cart', () => {
         if (existingItem.quantity < product.maxQuantity) {
           existingItem.quantity++
         } else {
-          alert(`商品 ${product.name} 的最大購買數量為 ${product.maxQuantity}`)
+          Swal.fire({
+            title: '購買數量超過限制',
+            text: `商品 ${product.name} 的最大購買數量為 ${product.maxQuantity}`,
+            icon: 'warning',
+            confirmButtonText: '了解',
+            timer: 1500,
+            timerProgressBar: true
+          })
         }
       } else {
         items.value.push({ ...product, quantity: 1 })

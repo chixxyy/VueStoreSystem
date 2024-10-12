@@ -98,7 +98,7 @@
     </div>
 
     <section v-if="recommendedProducts.length" class="mt-6">
-      <h3 class="mb-4 text-2xl font-semibold">折扣商品</h3>
+      <h3 class="mb-4 text-2xl font-semibold">選一個折扣商品</h3>
       <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-2">
         <li
           v-for="product in recommendedProducts"
@@ -137,9 +137,9 @@ export default {
     const discountError = computed(() => cartStore.discountError)
 
     const recommendedProducts = ref([
-      { id: 101, name: '電競滑鼠', price: 499 },
-      { id: 102, name: '藍牙音箱', price: 799 },
-      { id: 103, name: '無線耳機', price: 1099 }
+      { id: 7, name: '電競滑鼠', price: 499 },
+      { id: 6, name: '藍牙音箱', price: 799 },
+      { id: 3, name: '無線耳機', price: 1099 }
     ])
 
     const hasDiscountProductInCart = computed(() => {
