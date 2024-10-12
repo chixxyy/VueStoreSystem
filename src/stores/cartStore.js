@@ -67,6 +67,16 @@ export const useCartStore = defineStore('cart', () => {
     { deep: true }
   )
 
+  watch(totalPrice, (newTotalPrice) => {
+    if (discountCode.value) {
+      const discount = discountCodes.find((discount) => discount.code === discountCode.value)
+      if (discount && discount.type === 'percentage') {
+        appliedDiscount.value = (newTotalPrice * discount.value) / 100
+        localStorage.setItem('appliedDiscount', appliedDiscount.value.toString())
+      }
+    }
+  })
+
   watch([discountCode, appliedDiscount], ([newCode, newDiscount]) => {
     if (newCode) {
       localStorage.setItem('discountCode', newCode)
