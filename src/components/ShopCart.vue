@@ -1,5 +1,5 @@
 <template>
-  <section class="p-6 mx-4 bg-blue-200 rounded-lg shadow-md">
+  <section class="p-6 m-4 mt-0 bg-blue-200 rounded-lg shadow-md">
     <header>
       <h1 class="mb-6 text-3xl font-bold text-center">購物車</h1>
     </header>
@@ -96,6 +96,26 @@
         </button>
       </section>
     </div>
+
+    <section v-if="recommendedProducts.length" class="mt-6">
+      <h3 class="mb-4 text-2xl font-semibold">折扣商品</h3>
+      <ul class="grid grid-cols-1 gap-4 sm:grid-cols-3 md:grid-cols-2">
+        <li
+          v-for="product in recommendedProducts"
+          :key="product.id"
+          class="p-4 bg-white rounded-lg shadow-md"
+        >
+          <h3 class="text-lg font-bold">{{ product.name }}</h3>
+          <p class="font-bold text-red-500">折{{ product.price }}元</p>
+          <button
+            @click="addDiscountedProductToCart(product)"
+            class="px-4 py-2 mt-2 text-white bg-blue-500 rounded"
+          >
+            加入購物車
+          </button>
+        </li>
+      </ul>
+    </section>
   </section>
 </template>
 
@@ -115,6 +135,19 @@ export default {
     const discountCode = computed(() => cartStore.discountCode)
     const appliedDiscount = computed(() => cartStore.appliedDiscount)
     const discountError = computed(() => cartStore.discountError)
+
+    const recommendedProducts = ref([
+      { id: 101, name: '電競滑鼠', price: 499 },
+      { id: 102, name: '藍牙音箱', price: 799 },
+      { id: 103, name: '無線耳機', price: 1099 }
+    ])
+
+    // 檢查購物車中是否已有折扣商品
+    const hasDiscountProductInCart = computed(() => {
+      return cartItems.value.some((item) =>
+        recommendedProducts.value.some((product) => product.id === item.id)
+      )
+    })
 
     const applyDiscount = () => {
       cartStore.applyDiscountCode(discountInput.value)
@@ -185,6 +218,21 @@ export default {
       })
     }
 
+    const addDiscountedProductToCart = (product) => {
+      if (hasDiscountProductInCart.value) {
+        Swal.fire({
+          title: '已添加折扣商品',
+          text: '您只能添加一個折扣商品。',
+          icon: 'warning',
+          confirmButtonText: '了解',
+          timer: 1500,
+          timerProgressBar: true
+        })
+      } else {
+        cartStore.addToCart(product)
+      }
+    }
+
     return {
       cartItems,
       finalPrice,
@@ -198,7 +246,9 @@ export default {
       removeProduct,
       checkout,
       confirmCheckout,
-      showSummary
+      showSummary,
+      recommendedProducts,
+      addDiscountedProductToCart
     }
   }
 }
