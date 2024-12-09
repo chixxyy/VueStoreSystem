@@ -88,6 +88,30 @@ export const useCartStore = defineStore('cart', () => {
     }
   })
 
+  const addToCart = (product) => {
+    const existingItem = items.value.find((item) => item.id === product.id)
+    if (existingItem) {
+      if (existingItem.quantity < product.maxQuantity) {
+        existingItem.quantity++
+      } else {
+        Swal.fire({
+          title: '購買數量超過限制',
+          text: `商品 ${product.name} 的最大購買數量為 ${product.maxQuantity}`,
+          icon: 'warning',
+          confirmButtonText: '了解',
+          timer: 1500,
+          timerProgressBar: true
+        })
+      }
+    } else {
+      items.value.push({ ...product, quantity: 1 })
+    }
+  }
+
+  const removeProduct = (productId) => {
+    items.value = items.value.filter((item) => item.id !== productId)
+  }
+
   return {
     items,
     discountCode,
@@ -95,28 +119,8 @@ export const useCartStore = defineStore('cart', () => {
     discountError,
     totalPrice,
     finalPrice,
-    addToCart(product) {
-      const existingItem = items.value.find((item) => item.id === product.id)
-      if (existingItem) {
-        if (existingItem.quantity < product.maxQuantity) {
-          existingItem.quantity++
-        } else {
-          Swal.fire({
-            title: '購買數量超過限制',
-            text: `商品 ${product.name} 的最大購買數量為 ${product.maxQuantity}`,
-            icon: 'warning',
-            confirmButtonText: '了解',
-            timer: 1500,
-            timerProgressBar: true
-          })
-        }
-      } else {
-        items.value.push({ ...product, quantity: 1 })
-      }
-    },
-    removeProduct(productId) {
-      items.value = items.value.filter((item) => item.id !== productId)
-    },
+    addToCart,
+    removeProduct,
     applyDiscountCode
   }
 })

@@ -4,7 +4,12 @@
       <article
         v-for="product in products"
         :key="product.id"
-        class="overflow-hidden transition-transform transform bg-white rounded-lg shadow-lg hover:scale-105"
+        class="overflow-hidden transition-transform transform bg-white border border-gray-300 rounded-lg shadow-lg hover:scale-105"
+        style="
+          box-shadow:
+            0 4px 6px rgba(0, 0, 0, 0.1),
+            inset 0 0 8px rgba(255, 255, 255, 0.8);
+        "
       >
         <img :src="product.image" :alt="product.name" class="object-cover w-full h-56" />
 
@@ -114,5 +119,3 @@ export default {
   }
 }
 </script>
-
-<style scoped></style>

@@ -1,11 +1,10 @@
 <template>
   <div
     :class="{ dark: isDarkMode }"
-    class="flex flex-col justify-between min-h-screen bg-white dark:bg-gray-900"
+    class="flex flex-col justify-between min-h-screen bg-blue-100 dark:bg-gray-900"
   >
     <header class="flex items-center justify-between p-6 mb-6 bg-blue-300 dark:bg-gray-700">
-      <h1 class="text-4xl font-bold text-red-500 dark:text-white">Hero Store</h1>
-
+      <h1 class="text-4xl font-bold text-blue-600 dark:text-white">Hero Store</h1>
       <button
         @click="toggleDarkMode"
         class="p-4 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-700 dark:bg-gray-600 dark:hover:bg-gray-800"
@@ -19,7 +18,6 @@
         <article class="w-full mb-8 md:w-2/3">
           <ProductList @add-to-shopcart="addToCart" />
         </article>
-
         <aside class="w-full md:w-1/3">
           <ShopCart />
         </aside>
@@ -29,7 +27,7 @@
     <footer class="p-4 text-center text-gray-800 bg-blue-300 dark:bg-gray-700">
       <a
         href="https://github.com/chixxyy"
-        class="font-bold text-red-500 dark:text-blue-300 hover:underline"
+        class="font-bold text-blue-600 dark:text-white hover:underline"
       >
         <p>聯絡我</p>
       </a>

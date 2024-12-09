@@ -137,8 +137,8 @@ export default {
     const discountError = computed(() => cartStore.discountError)
 
     const recommendedProducts = ref([
-      { id: 7, name: '電競滑鼠', price: 499 },
-      { id: 6, name: '藍牙音箱', price: 799 },
+      { id: 1, name: '電競滑鼠', price: 499 },
+      { id: 2, name: '藍牙音箱', price: 799 },
       { id: 3, name: '無線耳機', price: 1099 }
     ])
 
@@ -252,5 +252,3 @@ export default {
   }
 }
 </script>
-
-<style scoped></style>
